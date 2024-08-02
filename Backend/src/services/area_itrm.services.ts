@@ -18,38 +18,79 @@ export class categorySequenceService {
       return { message: error.message, status: false };
     }
   }
-  async getcategorySequence() {
+  async getcategorySequence(page?: number, size?: number) {
     try {
-      const newcategorySequence = await Area_Item.aggregate([
-        {
-          $lookup: {
-            from: "areas",
-            localField: "Area",
-            foreignField: "_id",
-            as: "Areadata",
+      if (page && size) {
+        if (page <= 0) {
+          page = 1;
+        }
+        if (size <= 1) {
+          size = 1;
+        }
+        const newcategorySequence = await Area_Item.aggregate([
+          {
+            $lookup: {
+              from: "areas",
+              localField: "Area",
+              foreignField: "_id",
+              as: "Areadata",
+            },
           },
-        },
-        {
-          $lookup: {
-            from: "items",
-            localField: "Item",
-            foreignField: "_id",
-            as: "Itemdata",
+          {
+            $lookup: {
+              from: "items",
+              localField: "Item",
+              foreignField: "_id",
+              as: "Itemdata",
+            },
           },
-        },
-        {
-          $project: {
-            AreaId: { $first: ["$Areadata"] },
-            ItemId: { $first: ["$Itemdata"] },
-            sequence: 1,
+          {
+            $project: {
+              AreaId: { $first: ["$Areadata"] },
+              ItemId: { $first: ["$Itemdata"] },
+              sequence: 1,
+            },
           },
-        },
-      ]);
-      return {
-        message: "categorySequence retriewed successfully",
-        status: true,
-        data: newcategorySequence,
-      };
+        ])
+          .skip((page - 1) * size)
+          .limit(size);
+        return {
+          message: "categorySequence retriewed successfully",
+          status: true,
+          data: newcategorySequence,
+        };
+      } else {
+        const newcategorySequence = await Area_Item.aggregate([
+          {
+            $lookup: {
+              from: "areas",
+              localField: "Area",
+              foreignField: "_id",
+              as: "Areadata",
+            },
+          },
+          {
+            $lookup: {
+              from: "items",
+              localField: "Item",
+              foreignField: "_id",
+              as: "Itemdata",
+            },
+          },
+          {
+            $project: {
+              AreaId: { $first: ["$Areadata"] },
+              ItemId: { $first: ["$Itemdata"] },
+              sequence: 1,
+            },
+          },
+        ]);
+        return {
+          message: "categorySequence retriewed successfully",
+          status: true,
+          data: newcategorySequence,
+        };
+      }
     } catch (error) {
       return { message: error.message, status: false };
     }

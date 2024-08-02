@@ -5,7 +5,6 @@ import mongoose from "mongoose";
 export class AreaService {
   async createArea(Areadata: IArea) {
     try {
-      console.log(Areadata);
       const data = await Area.find();
       Areadata.sequence = data.length + 1;
       const newArea = await Area.create(Areadata);
@@ -18,14 +17,32 @@ export class AreaService {
       return { message: error.message, status: false };
     }
   }
-  async getArea() {
+  async getArea(page?: number, size?: number) {
     try {
-      const newArea = await Area.find();
-      return {
-        message: "Area retriewed successfully",
-        status: true,
-        data: newArea,
-      };
+      // console.log(page,size)
+      if (page && size) {
+        if(page <=0 ){
+          page = 1;
+        }
+        if(size <=1 ){
+          size = 1;
+        }
+        const newArea = await Area.find()
+          .skip((page - 1) * size)
+          .limit(size);
+        return {
+          message: "Area retriewed successfully",
+          status: true,
+          data: newArea,
+        };
+      } else {
+        const newArea = await Area.find();
+        return {
+          message: "Area retriewed successfully",
+          status: true,
+          data: newArea,
+        };
+      }
     } catch (error) {
       return { message: error.message, status: false };
     }
@@ -35,7 +52,6 @@ export class AreaService {
     try {
       session.startTransaction();
       const newArea = await Area.findByIdAndDelete(id);
-      console.log(newArea);
       if (newArea) {
         const Areasequence = await Area.updateMany(
           {

@@ -38,7 +38,7 @@
 //           .json({ message: "Invalid action specified", status: false });
 //       }
 //       next();
-//     } catch (error: any) {
+//     } catch (error) {
 //       res
 //         .status(403)
 //         .json({ message: "Permission for your role is not defined" });

@@ -17,8 +17,12 @@ export class categorysequenceControlleres {
   }
   async getcategorysequence(req: Request, res: Response) {
     try {
+      const { page, size } = req.query;
       const categorysequencedata =
-        await categorySequenceServices.getcategorySequence();
+        await categorySequenceServices.getcategorySequence(
+          Number(page),
+          Number(size)
+        );
       res.status(201).json(categorysequencedata);
     } catch (error) {
       res.status(400).json({ message: error.message, status: false });

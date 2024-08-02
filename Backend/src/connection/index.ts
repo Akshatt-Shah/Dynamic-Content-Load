@@ -40,7 +40,7 @@ export async function connection() {
         console.error("Failed to connect to MongoDB", error);
         return { error: error.message, status: false };
       });
-  } catch (error: any) {
+  } catch (error) {
     return { message: error.message, status: error.status };
   }
 }

@@ -15,7 +15,8 @@ export class AreaControlleres {
   }
   async getArea(req: Request, res: Response) {
     try {
-      const Areadata = await AreaServices.getArea();
+      const { page, size } = req.query;
+      const Areadata = await AreaServices.getArea(Number(page),Number(size));
       res.status(201).json(Areadata);
     } catch (error) {
       res.status(400).json({ message: error.message, status: false });

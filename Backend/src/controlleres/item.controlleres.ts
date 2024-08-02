@@ -15,7 +15,8 @@ export class ItemControlleres {
   }
   async getItem(req: Request, res: Response) {
     try {
-      const Itemdata = await ItemServices.getItem();
+      const { page, size } = req.query;
+      const Itemdata = await ItemServices.getItem(Number(page),Number(size));
       res.status(201).json(Itemdata);
     } catch (error) {
       res.status(400).json({ message: error.message, status: false });
