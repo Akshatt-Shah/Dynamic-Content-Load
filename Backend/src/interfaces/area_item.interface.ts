@@ -3,4 +3,5 @@ export interface IAreaItem {
   Area: string;
   Item: string;
   sequence?: number;
+  newsequence?: number;
 }

@@ -1,0 +1,55 @@
+<div class="container-fluid">
+    <div class="card">
+        <p-table [value]="areaItemdata" [columns]="cols" [reorderableColumns]="true"
+            [tableStyle]="{'min-width': '50rem'}" (onRowReorder)="onRowReorder($event)">
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th style="width:3rem"></th>
+                    <th *ngFor="let col of columns" pReorderableColumn>
+                        {{ col.header }}
+                    </th>
+                    <th style="width:3rem">Action</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns" let-index="rowIndex">
+                <tr [pReorderableRow]="index">
+                    <td>
+                        <span class="pi pi-bars" pReorderableRowHandle></span>
+                    </td>
+                    <td *ngFor="let col of columns">
+                        <!-- Handle nested fields -->
+                        {{ getNestedValue(rowData, col.field) }}
+                    </td>
+                    <td>
+                        <button pButton type="button" class="btn btn-danger" (click)="deleteAreaItem(rowData._id)"><svg
+                                xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                                <path
+                                    d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5" />
+                            </svg></button>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>
+<hr>
+<div class="container w-50">
+
+    <div class="row rounded-5 bg-primary m-2 p-2">
+        <div class="col-lg-12 text-white text-center">
+            <h6>Item Product Sequence Details</h6>
+        </div>
+        <div class="col-lg-12 p-2" *ngFor="let item of areaItemdata">
+            <div class="card text-start">
+                <!-- <img class="card-img-top" src="holder.js/100px180/" alt="Title" /> -->
+                <div class="card-body">
+                    <h6 class="card-title">Category Name :{{item.AreaId.name}} </h6>
+                    <h6 class="card-title">Item Name : {{item.ItemId.name}} </h6>
+                    <h6 class="card-title">Sequence : {{item.sequence}} </h6>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

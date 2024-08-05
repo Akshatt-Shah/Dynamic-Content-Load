@@ -29,14 +29,15 @@ export class AreaService {
         }
         const newArea = await Area.find()
           .skip((page - 1) * size)
-          .limit(size);
+          .limit(size)
+          .sort({ sequence: 1 });
         return {
           message: "Area retriewed successfully",
           status: true,
           data: newArea,
         };
       } else {
-        const newArea = await Area.find();
+        const newArea = await Area.find().sort({ sequence: 1 });
         return {
           message: "Area retriewed successfully",
           status: true,

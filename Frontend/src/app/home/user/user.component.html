@@ -1,0 +1,75 @@
+<div class="container-fluid m-0 p-0 bg-dark text-white">
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark text-light m-2">
+        <a class="navbar-brand " routerLink="/app/user/content">Content Learner</a>
+        <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse"
+            data-bs-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false"
+            aria-label="Toggle navigation"></button>
+        <div class="collapse navbar-collapse" id="collapsibleNavId">
+            <ul class="navbar-nav me-auto mt-2 mt-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" routerLink="/app/user/content" aria-current="page">Home <span
+                            class="visually-hidden">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" routerLink="/app/user/content">Content</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" routerLink="/app/user/gettypecontent">Content By Type</a>
+                </li>
+                <!-- <li class="nav-item">
+                    <a class="nav-link" routerLink="login">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="signup">Sitgnup</a>
+                </li> -->
+                <!-- <li class="nav-item dropdown ">
+                    <a class="nav-link dropdown-toggle active" href="#" id="dropdownId" data-bs-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">Dropdown</a>
+                    <div class="dropdown-menu" aria-labelledby="dropdownId">
+                        <a class="dropdown-item" href="#">Action 1</a>
+                        <a class="dropdown-item" href="#">Action 2</a>
+                    </div>
+                </li> -->
+            </ul>
+ 
+            <ul class="navbar-nav mt-2 mt-lg-0 justify-content-end ">
+                <!-- <li class="nav-item">
+                    <a class="nav-link active" routerLink="/cart"><i class="bi bi-cart3"
+                            style="font-size:larger;">Cart</i></a>
+                </li> -->
+                <li class="nav-item">
+                    <a class="nav-link active" routerLink="/user/login">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" routerLink="/user/signup">Register</a>
+                </li>
+                <!-- <li class="nav-item">
+                    <a class="nav-link active" routerLink="/user/signup">Sitgnup</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" routerLink="order">Orders</a>
+                </li> -->
+                <li class="nav-item">
+                    <a class="nav-link active" routerLink="/app/user">user</a>
+                </li>
+            </ul>
+            <form class="d-flex my-2 my-lg-0">
+                <input class="form-control me-sm-2" type="text" placeholder="Search" />
+                <button class="btn btn-outline-success my-2 my-sm-0 active" type="submit">
+                    Search
+                </button>
+            </form>
+            <!-- Default dropleft button -->
+            <!-- <div class="d-flex" *ngIf="data">
+                <p class="text-center my-auto"><i class="bi bi-person-circle " style="font-size: 2rem;"></i></p>
+                <p class="mt-3" style="color:white"><a routerLink="/profile"
+                        class="text-decoration-none text-white">{{data.firstName}} {{data.lastName}}</a> </p>
+            </div> -->
+        </div>
+    </nav>
+   
+</div>
+ 
+<div>
+    <router-outlet></router-outlet>
+</div>

@@ -1,0 +1,30 @@
+<div class="container-fluid">
+    <div class="card">
+        <p-table [value]="categoryData" [columns]="cols" [reorderableColumns]="true"
+            [tableStyle]="{'min-width': '50rem'}" (onRowReorder)="onRowReorder($event)">
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th style="width:3rem"></th>
+                    <th *ngFor="let col of columns" pReorderableColumn>
+                        {{col.header}}
+                    </th>
+                    <th>Show Category Products</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns" let-index="rowIndex">
+                <tr [pReorderableRow]="index">
+                    <td>
+                        <span class="pi pi-bars" pReorderableRowHandle></span>
+                    </td>
+                    <td *ngFor="let col of columns">
+                        {{rowData[col.field]}}
+                    </td>
+                    <td>
+                        <button (click)="onButtonClick(rowData._id)" class="btn btn-primary"><i class="bi bi-eye-fill"></i></button>
+                        <!-- New button with click event -->
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>

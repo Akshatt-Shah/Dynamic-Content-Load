@@ -53,7 +53,8 @@ export class categorySequenceService {
           },
         ])
           .skip((page - 1) * size)
-          .limit(size);
+          .limit(size)
+          .sort({ sequence: 1 });
         return {
           message: "categorySequence retriewed successfully",
           status: true,
@@ -84,7 +85,7 @@ export class categorySequenceService {
               sequence: 1,
             },
           },
-        ]);
+        ]).sort({ sequence: 1 });
         return {
           message: "categorySequence retriewed successfully",
           status: true,
@@ -126,7 +127,7 @@ export class categorySequenceService {
             sequence: 1,
           },
         },
-      ]);
+      ]).sort({ sequence: 1 });
       return {
         message: "categorySequence retriewed successfully",
         status: true,
@@ -167,13 +168,14 @@ export class categorySequenceService {
     const session = await mongoose.startSession();
     session.startTransaction();
     try {
-      let oldSequence;
-      let newSequence = data.sequence;
+      let oldSequence = data.sequence;
+      let newSequence = data.newsequence;
       const newcategorySequence = await Area_Item.findOne({
         Area: data.Area,
+        Item: data.Item,
+        sequence: data.sequence,
       }).session(session);
-      //   console.log(newcategorySequence);
-      oldSequence = newcategorySequence?.sequence;
+      console.log(newcategorySequence);
       const lengthdata = await Area_Item.find({ Area: data.Area });
       if (newSequence !== undefined && newSequence > lengthdata.length) {
         session.abortTransaction();
@@ -184,8 +186,10 @@ export class categorySequenceService {
         };
       }
       if (oldSequence !== undefined && newSequence !== undefined) {
+        console.log(oldSequence);
+        console.log(newSequence);
         if (oldSequence <= newSequence) {
-          console.log(data.Area);
+          console.log(data);
           const s = await Area_Item.updateMany(
             {
               Area: data.Area,
@@ -194,6 +198,19 @@ export class categorySequenceService {
             { $inc: { sequence: -1 } },
             { session }
           );
+          console.log("s", s);
+          const sequencedata = await Area_Item.findOneAndUpdate(
+            { Area: data.Area, Item: data.Item, sequence: data.sequence },
+            { sequence: newSequence },
+            { new: true, session }
+          );
+          await session.commitTransaction();
+          session.endSession();
+          return {
+            message: "Area-Item Sequence updated successfully",
+            data: sequencedata,
+            status: true,
+          };
         } else {
           const c = await Area_Item.updateMany(
             {
@@ -203,20 +220,20 @@ export class categorySequenceService {
             { $inc: { sequence: +1 } },
             { session }
           );
+          console.log("c", c);
+          const sequencedata = await Area_Item.findOneAndUpdate(
+            { Area: data.Area, Item: data.Item, sequence: data.sequence },
+            { sequence: newSequence },
+            { new: true, session }
+          );
+          await session.commitTransaction();
+          session.endSession();
+          return {
+            message: "Area-Item Sequence updated successfully",
+            data: sequencedata,
+            status: true,
+          };
         }
-        const sequencedata = await Area_Item.findOneAndUpdate(
-          { Area: data.Area },
-          { sequence: newSequence },
-          { new: true, session }
-        );
-
-        await session.commitTransaction();
-        session.endSession();
-        return {
-          message: "Area-Item Sequence updated successfully",
-          data: sequencedata,
-          status: true,
-        };
       } else {
         await session.abortTransaction();
         session.endSession();
