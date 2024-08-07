@@ -27,6 +27,11 @@ export class ProductcategorysequenceService {
       withCredentials: true,
     });
   }
+  getallareaItem() {
+    return this.http.get(this.Url + `/areaItem/get`, {
+      withCredentials: true,
+    });
+  }
 
   updateareaItem(data: any) {
     return this.http.put(this.Url + `/areaItem/update`, data, {

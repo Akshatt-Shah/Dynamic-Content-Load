@@ -19,6 +19,7 @@ export class AreaService {
   }
   async getArea(page?: number, size?: number) {
     try {
+      const totalRecords = await Area.countDocuments();
       // console.log(page,size)
       if (page && size) {
         if(page <=0 ){
@@ -35,6 +36,7 @@ export class AreaService {
           message: "Area retriewed successfully",
           status: true,
           data: newArea,
+          total:totalRecords
         };
       } else {
         const newArea = await Area.find().sort({ sequence: 1 });
@@ -42,6 +44,7 @@ export class AreaService {
           message: "Area retriewed successfully",
           status: true,
           data: newArea,
+          total:totalRecords
         };
       }
     } catch (error) {

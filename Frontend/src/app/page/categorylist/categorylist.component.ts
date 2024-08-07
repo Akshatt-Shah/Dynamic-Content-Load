@@ -9,28 +9,59 @@ import { ProductcategorysequenceService } from 'src/app/core/services/productcat
   styleUrls: ['./categorylist.component.scss'],
 })
 export class CategorylistComponent implements OnInit {
-  categoryData: any = [];
+  categoryData: any[] = [];
+  areaData: any[] = [];
+  groupedData: any = {};
   cols!: any[];
+
   constructor(
     private category: CategorysequenceService,
     private productitem: ProductcategorysequenceService,
     private router: Router
   ) {}
+
   getcategory() {
     this.category.getcategory().subscribe({
       next: (response: any) => {
         this.categoryData = response.data;
+        console.log(this.categoryData);
+        this.groupDataByArea();
       },
       error: (error) => {
         console.log(error);
       },
     });
   }
+
+  getAllArea() {
+    this.productitem.getallareaItem().subscribe({
+      next: (response: any) => {
+        this.areaData = response.data;
+        console.log(this.areaData);
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+  }
+
+  groupDataByArea() {
+    this.groupedData = this.categoryData.reduce((acc, category) => {
+      const areaId = category.areaId; // Assuming category has an areaId field
+      // console.log(acc,category)
+      if (!acc[areaId]) {
+        acc[areaId] = [];
+      }
+      acc[areaId].push(category);
+      return acc;
+    }, {});
+  }
+
   ngOnInit(): void {
     this.getcategory();
-
+    this.getAllArea();
     this.cols = [
-      { field: '_id', header: 'Id' },
+      // { field: '_id', header: 'Id' },
       { field: 'name', header: 'Name' },
       { field: 'description', header: 'Description' },
       { field: 'type', header: 'Type' },
@@ -44,7 +75,7 @@ export class CategorylistComponent implements OnInit {
     data.sequence = event.dropIndex + 1;
     reordersequence['name'] = data.name;
     reordersequence['type'] = data.type;
-    reordersequence['description'] = data.description;
+    // reordersequence['description'] = data.description;
     reordersequence['sequence'] = data.sequence;
     this.category.updatecategory(data._id, reordersequence).subscribe({
       next: (response: any) => {

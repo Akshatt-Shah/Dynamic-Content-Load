@@ -1,30 +1,62 @@
-<div class="container-fluid">
-    <div class="card">
-        <p-table [value]="categoryData" [columns]="cols" [reorderableColumns]="true"
-            [tableStyle]="{'min-width': '50rem'}" (onRowReorder)="onRowReorder($event)">
-            <ng-template pTemplate="header" let-columns>
-                <tr>
-                    <th style="width:3rem"></th>
-                    <th *ngFor="let col of columns" pReorderableColumn>
-                        {{col.header}}
-                    </th>
-                    <th>Show Category Products</th>
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-rowData let-columns="columns" let-index="rowIndex">
-                <tr [pReorderableRow]="index">
-                    <td>
-                        <span class="pi pi-bars" pReorderableRowHandle></span>
-                    </td>
-                    <td *ngFor="let col of columns">
-                        {{rowData[col.field]}}
-                    </td>
-                    <td>
-                        <button (click)="onButtonClick(rowData._id)" class="btn btn-primary"><i class="bi bi-eye-fill"></i></button>
-                        <!-- New button with click event -->
-                    </td>
-                </tr>
-            </ng-template>
-        </p-table>
+<div class="row gap-2">
+    <div class="col-lg-5 container-fluid mt-4 mx-2 rounded-5">
+        <div class="card">
+            <p-table [value]="categoryData" [columns]="cols" [reorderableColumns]="true"
+                [tableStyle]="{'min-width': '50rem' }" (onRowReorder)="onRowReorder($event)">
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th style="width:3rem"></th>
+                        <th *ngFor="let col of columns" pReorderableColumn>
+                            {{col.header}}
+                        </th>
+                        <th>Show Category Products</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns" let-index="rowIndex">
+                    <tr [pReorderableRow]="index">
+                        <td>
+                            <span class="pi pi-bars" pReorderableRowHandle></span>
+                        </td>
+                        <td *ngFor="let col of columns">
+                            {{rowData[col.field]}}
+                        </td>
+                        <td>
+                            <button (click)="onButtonClick(rowData._id)" class="btn btn-primary">
+                                <i class="bi bi-eye-fill"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+    <div class="col container-fluid rounded-5 w-50 mt-4">
+        <div class="container w-50 h-75 rounded-5  p-4"
+            style="border: 5px solid black; background-color: aliceblue; overflow-y: scroll;">
+
+            <div class="text-center mb-4">
+                <h1>Area Items Details</h1>
+            </div>
+            <div class="  p-2 m-2" style="height: 800px;">
+
+                <div *ngFor="let area of categoryData" class="card mb-3">
+                    <div class="card-header bg-primary text-white">
+                        {{ area.name }}
+                    </div>
+                    <div class="card-body d-flex " style="white-space: nowrap;overflow-x: scroll;">
+                        <ng-container *ngFor="let category of areaData">
+                            <div *ngIf="category.AreaId._id === area._id" class="m-2">
+                                <div class="card h-100" style="width: 300px;">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Item Name: {{ category.ItemId.name }}</h6>
+                                        <h6 class="card-title">Item Description: {{ category.ItemId.description }}</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
